@@ -11,9 +11,27 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
 
-  // Close menu on route change
-  useEffect(() => {
+  // --- THIS IS THE FIX ---
+  // Function to close the menu, to be called on link click
+  const closeMenu = () => {
     setIsOpen(false);
+  };
+
+  // Effect to control body scrolling
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add('menu-open');
+    } else {
+      document.body.classList.remove('menu-open');
+    }
+    return () => {
+      document.body.classList.remove('menu-open');
+    };
+  }, [isOpen]);
+
+  // Close menu on route change (this is a good fallback)
+  useEffect(() => {
+    closeMenu();
   }, [location]);
 
   useEffect(() => {
@@ -42,11 +60,10 @@ const Navbar = () => {
         <div className="bar3"></div>
       </div>
       <ul className="navbar-links">
-        <li><Link to="/">Home</Link></li>
-        <li><Link to="/about">About</Link></li>
-        {/* We can create a dedicated Services page later if needed */}
-        {/* <li><Link to="/services">Services</Link></li> */}
-        <li><Link to="/contact">Contact</Link></li>
+        {/* Add onClick={closeMenu} to each link */}
+        <li><Link to="/" onClick={closeMenu}>Home</Link></li>
+        <li><Link to="/about" onClick={closeMenu}>About</Link></li>
+        <li><Link to="/contact" onClick={closeMenu}>Contact</Link></li>
       </ul>
     </nav>
   );
