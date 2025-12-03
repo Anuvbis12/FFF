@@ -1,0 +1,92 @@
+/* Main wrapper for the entire scrollytelling experience */
+.showcase-wrapper {
+  background-color: var(--background-dark);
+}
+
+/* --- Chapter 1: Cinematic Intro --- */
+.sticky-banner-container {
+  position: relative;
+  height: 200vh; /* Tall container to allow for scroll-based zoom out */
+}
+
+.showcase-banner {
+  height: 100vh;
+  position: sticky; /* The banner sticks to the top */
+  top: 0;
+}
+
+.showcase-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 2rem;
+  z-index: 2;
+}
+
+.showcase-content h1, .showcase-content h2, .showcase-content p {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.showcase-content h1.visible { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
+.showcase-content h2.visible { transition-delay: 0.5s; opacity: 1; transform: translateY(0); }
+.showcase-content p.visible { transition-delay: 0.8s; opacity: 1; transform: translateY(0); }
+
+.showcase-content h1 { font-size: 5rem; margin: 0; }
+.showcase-content h2 { font-size: 2.5rem; color: var(--text-secondary); margin-bottom: 2rem; }
+.showcase-content p { font-size: 1.2rem; max-width: 600px; line-height: 1.7; }
+
+/* --- Chapter 2: The Pillars --- */
+.pillars-section {
+  background-color: var(--background-dark);
+  padding: 8rem 2rem;
+  position: relative;
+  z-index: 5; /* Ensure it renders on top of the sticky banner */
+  text-align: center;
+}
+
+.pillars-section h2 {
+  font-size: 3rem;
+  margin-bottom: 5rem;
+}
+
+.pillars-grid {
+  display: grid;
+  gap: 8rem; /* Large gap to ensure one card is in focus at a time */
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.pillar-card {
+  opacity: 0.2; /* All cards are dimmed by default */
+  transition: opacity 0.5s ease;
+}
+
+.pillar-card.active {
+  opacity: 1; /* The card in view becomes fully visible */
+}
+
+.pillar-card h3 {
+  font-size: 2rem;
+  color: var(--accent-primary);
+  margin-bottom: 1rem;
+}
+
+.pillar-card p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+
+@media (max-width: 768px) {
+  .showcase-content h1 { font-size: 3rem; }
+  .showcase-content h2 { font-size: 1.5rem; }
+  .pillars-section h2 { font-size: 2rem; }
+}

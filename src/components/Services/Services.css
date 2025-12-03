@@ -1,0 +1,90 @@
+.services-section {
+  background-color: var(--background-secondary);
+  text-align: center;
+}
+
+.services-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-top: 4rem;
+}
+
+.service-card {
+  background-color: var(--background-dark);
+  border: 1px solid #222;
+  padding: 2.5rem;
+  width: 340px;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s ease, border-color 0.4s ease;
+  
+  /* Animation setup */
+  opacity: 0;
+  transform: translateY(50px);
+}
+
+.service-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.service-card:hover {
+  transform: translateY(-10px);
+  border-color: var(--accent-primary);
+}
+
+.service-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+.service-card p {
+  line-height: 1.7;
+}
+
+.service-learn-more {
+  color: var(--accent-primary);
+  text-decoration: none;
+  font-weight: 500;
+  position: absolute;
+  bottom: 2.5rem;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s, transform 0.4s;
+}
+
+.service-card:hover .service-learn-more {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Decorative line effect on hover */
+.service-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: var(--accent-primary);
+  transform: translateX(-100%);
+  transition: transform 0.4s ease;
+}
+
+.service-card:hover::before {
+  transform: translateX(0);
+}
+
+@media (max-width: 768px) {
+  .services-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .service-card {
+    width: 90%;
+  }
+}

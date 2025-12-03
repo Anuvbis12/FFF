@@ -1,14 +1,10 @@
-.App {
+.spinner-container {
   display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+  justify-content: center;
+  align-items: center;
+  padding: 5rem;
 }
 
-main {
-  flex: 1;
-}
-
-/* Simple CSS Loader for Suspense Fallback */
 .loader {
   border: 4px solid #333; /* Light grey */
   border-top: 4px solid var(--accent-primary); /* Blue */
