@@ -1,14 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap');
 
-/* New Luxury-Inspired Color Palette */
+/* --- THEME VARIABLES --- */
 :root {
-  --background-dark: #101010;
-  --background-secondary: #1a1a1a;
+  /* Default to Dark Mode */
+  --bg-dark: #101010;
+  --bg-secondary: #1a1a1a;
   --text-primary: #ffffff;
   --text-secondary: #a0a0a0;
-  --accent-primary: #00aaff; /* Electric Blue Accent */
+  --border-color: #222;
+  --accent-primary: #00aaff;
   --accent-hover: #ffffff;
 }
+
+[data-theme="light"] {
+  /* Light Mode Overrides */
+  --bg-dark: #f0f0f0;
+  --bg-secondary: #ffffff;
+  --text-primary: #101010;
+  --text-secondary: #505050;
+  --border-color: #e0e0e0;
+}
+/* --- END OF THEME VARIABLES --- */
 
 html {
   scroll-behavior: smooth;
@@ -19,18 +31,23 @@ body {
   font-family: 'Poppins', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--background-dark);
+  
+  /* Apply theme colors with smooth transitions */
+  background-color: var(--bg-dark);
   color: var(--text-secondary);
+  transition: background-color 0.5s ease, color 0.5s ease;
 }
 
 h1, h2, h3, h4, h5, h6 {
   color: var(--text-primary);
   font-weight: 700;
+  transition: color 0.5s ease;
 }
 
 section {
   padding: 6rem 2rem;
-  border-bottom: 1px solid #222;
+  border-bottom: 1px solid var(--border-color);
+  transition: border-color 0.5s ease;
 }
 
 @media (max-width: 768px) {

@@ -5,9 +5,9 @@ const Footer = () => {
   return (
     <footer className="footer-section">
       <div className="footer-content">
-        <div className="footer-logo">APOLLO</div>
+        <div className="footer-logo">BETA</div> {/* Changed from APOLLO to BETA */}
         <div className="footer-copyright">
-          &copy; {new Date().getFullYear()} Apollo. Precision & Performance.
+          &copy; {new Date().getFullYear()} BETA. Precision & Performance. {/* Changed from Apollo to BETA */}
         </div>
         <div className="footer-socials">
           <a href="#!" aria-label="LinkedIn">LI</a>

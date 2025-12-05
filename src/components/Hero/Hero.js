@@ -7,7 +7,7 @@ import './Hero.css';
 
 const Hero = () => {
   const { isInitialLoad, setIsInitialLoad } = useContext(AnimationContext);
-  const wrapperRef = useRef(null); // Ref for the main wrapper
+  const wrapperRef = useRef(null);
 
   useEffect(() => {
     if (isInitialLoad) {
@@ -18,12 +18,11 @@ const Hero = () => {
 
   useEffect(() => {
     const container = wrapperRef.current;
-    if (!container) return; // Safety check
+    if (!container) return;
 
     const blobs = gsap.utils.toArray('.liquid-aurora-background div');
-    if (blobs.length === 0) return; // Safety check
+    if (blobs.length === 0) return;
 
-    // Set initial random movement for each blob
     blobs.forEach(blob => {
       gsap.to(blob, {
         x: 'random(-200, 200)',
@@ -72,7 +71,6 @@ const Hero = () => {
   }, []);
 
   return (
-    // The ref is now attached to this top-level div
     <div ref={wrapperRef} className="hero-wrapper-for-animation">
       <ParallaxBanner
         className="hero-container"
@@ -94,7 +92,7 @@ const Hero = () => {
               <div className={`hero-content ${isInitialLoad ? 'initial-fade-in' : ''}`}>
                 <h1 className="hero-title">Engineering Emotion</h1>
                 <p className="hero-subtitle">Discover the Future of Facility Management</p>
-                <Link to="/explore" className="hero-cta-button">Explore Apollo</Link>
+                <Link to="/explore" className="hero-cta-button">Explore BETA</Link> {/* Changed from Apollo to BETA */}
               </div>
             ),
           },

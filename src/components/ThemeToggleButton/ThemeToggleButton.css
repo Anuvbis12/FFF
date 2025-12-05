@@ -1,0 +1,14 @@
+.theme-toggle-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-toggle-button svg {
+  color: var(--text-primary);
+  transition: color 0.5s ease;
+}

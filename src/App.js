@@ -1,24 +1,24 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { ParallaxProvider } from 'react-scroll-parallax';
 import { AnimationProvider } from './context/AnimationContext';
-import { AnimatePresence } from 'framer-motion'; // 'motion' is removed as it's not used here
+import { ThemeProvider } from './context/ThemeContext'; // Import ThemeProvider
+import { AnimatePresence } from 'framer-motion';
 import './App.css';
 
 // Components
 import Layout from './components/Layout/Layout';
 import LoadingSpinner from './components/LoadingSpinner/LoadingSpinner';
 import CustomCursor from './components/CustomCursor/CustomCursor';
+import LoadingScreen from './components/LoadingScreen/LoadingScreen';
 
 // Pages
 import HomePage from './pages/HomePage';
 const AboutPage = lazy(() => import('./pages/AboutPage'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
 const ShowcasePage = lazy(() => import('./pages/ShowcasePage'));
+const ProjectsPage = lazy(() => import('./pages/ProjectsPage'));
 
-// The unused variables 'pageVariants' and 'pageTransition' are removed.
-
-// A new component to handle the animated routes
 const AnimatedRoutes = () => {
   const location = useLocation();
   return (
@@ -27,6 +27,7 @@ const AnimatedRoutes = () => {
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path="about" element={<AboutPage />} />
+          <Route path="projects" element={<ProjectsPage />} />
           <Route path="contact" element={<ContactPage />} />
           <Route path="explore" element={<ShowcasePage />} />
           <Route path="*" element={<div>Page Not Found</div>} />
@@ -37,17 +38,35 @@ const AnimatedRoutes = () => {
 };
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 3500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <AnimationProvider>
-      <ParallaxProvider>
-        <CustomCursor />
-        <Router>
-          <Suspense fallback={<LoadingSpinner />}>
-            <AnimatedRoutes />
-          </Suspense>
-        </Router>
-      </ParallaxProvider>
-    </AnimationProvider>
+    <ThemeProvider> {/* Wrap everything with ThemeProvider */}
+      <AnimationProvider>
+        <ParallaxProvider>
+          <CustomCursor />
+          <AnimatePresence>
+            {isLoading && <LoadingScreen />}
+          </AnimatePresence>
+          
+          {!isLoading && (
+            <Router>
+              <Suspense fallback={<LoadingSpinner />}>
+                <AnimatedRoutes />
+              </Suspense>
+            </Router>
+          )}
+        </ParallaxProvider>
+      </AnimationProvider>
+    </ThemeProvider>
   );
 }
 

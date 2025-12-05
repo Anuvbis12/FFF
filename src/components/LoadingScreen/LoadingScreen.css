@@ -1,0 +1,32 @@
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--background-dark);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  overflow: hidden; /* Hide scanner line when it's off-screen */
+}
+
+.scanner-line {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+  box-shadow: 0 0 10px var(--accent-primary);
+}
+
+.loading-logo-svg {
+  width: 300px;
+  height: auto;
+}
+
+.loading-logo-svg path {
+  stroke: var(--accent-primary);
+  stroke-width: 2;
+}
