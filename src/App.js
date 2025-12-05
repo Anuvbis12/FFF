@@ -1,36 +1,49 @@
 import React, { Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { ParallaxProvider } from 'react-scroll-parallax';
 import { AnimationProvider } from './context/AnimationContext';
-// ReactLenis is removed
+import { AnimatePresence } from 'framer-motion'; // 'motion' is removed as it's not used here
 import './App.css';
 
-// Layout and Pages
+// Components
 import Layout from './components/Layout/Layout';
-import HomePage from './pages/HomePage';
 import LoadingSpinner from './components/LoadingSpinner/LoadingSpinner';
+import CustomCursor from './components/CustomCursor/CustomCursor';
 
-// Lazy load page components
+// Pages
+import HomePage from './pages/HomePage';
 const AboutPage = lazy(() => import('./pages/AboutPage'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
 const ShowcasePage = lazy(() => import('./pages/ShowcasePage'));
 
+// The unused variables 'pageVariants' and 'pageTransition' are removed.
+
+// A new component to handle the animated routes
+const AnimatedRoutes = () => {
+  const location = useLocation();
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route path="about" element={<AboutPage />} />
+          <Route path="contact" element={<ContactPage />} />
+          <Route path="explore" element={<ShowcasePage />} />
+          <Route path="*" element={<div>Page Not Found</div>} />
+        </Route>
+      </Routes>
+    </AnimatePresence>
+  );
+};
+
 function App() {
   return (
-    // The ReactLenis wrapper is removed
     <AnimationProvider>
       <ParallaxProvider>
+        <CustomCursor />
         <Router>
           <Suspense fallback={<LoadingSpinner />}>
-            <Routes>
-              <Route path="/" element={<Layout />}>
-                <Route index element={<HomePage />} />
-                <Route path="about" element={<AboutPage />} />
-                <Route path="contact" element={<ContactPage />} />
-                <Route path="explore" element={<ShowcasePage />} />
-                <Route path="*" element={<div>Page Not Found</div>} />
-              </Route>
-            </Routes>
+            <AnimatedRoutes />
           </Suspense>
         </Router>
       </ParallaxProvider>

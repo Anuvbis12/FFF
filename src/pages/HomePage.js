@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion'; // Import motion
 import Hero from '../components/Hero/Hero';
 import { Parallax } from 'react-scroll-parallax';
 import { useInView } from 'react-intersection-observer';
@@ -18,7 +19,6 @@ const servicesWithImages = [
   {
     title: 'Strategic Security Solutions',
     description: 'Intelligent protection for your most valuable assets, monitored 24/7 by our elite team.',
-    // --- NEW IMAGE URL ---
     imageUrl: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=2070&auto=format&fit=crop',
   },
 ];
@@ -38,7 +38,6 @@ const ServiceSection = ({ title, description, imageUrl, index }) => {
         <p>{description}</p>
       </div>
       <div className="service-image-container">
-        {/* Re-adding the Parallax component now that the URL is fixed */}
         <Parallax speed={10}>
           <img src={imageUrl} alt={title} className={inView ? 'visible' : ''} />
         </Parallax>
@@ -49,7 +48,17 @@ const ServiceSection = ({ title, description, imageUrl, index }) => {
 
 const HomePage = () => {
   return (
-    <>
+    <motion.div
+      initial="initial"
+      animate="in"
+      exit="out"
+      variants={{
+        initial: { opacity: 0 },
+        in: { opacity: 1 },
+        out: { opacity: 0 },
+      }}
+      transition={{ duration: 0.5, ease: "easeInOut" }}
+    >
       <Hero />
       <div className="home-content-wrapper">
         {servicesWithImages.map((service, index) => (
@@ -62,7 +71,7 @@ const HomePage = () => {
           />
         ))}
       </div>
-    </>
+    </motion.div>
   );
 };
 
