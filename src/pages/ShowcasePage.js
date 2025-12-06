@@ -1,80 +1,93 @@
-import React from 'react';
+import React, { Suspense, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { ParallaxBanner } from 'react-scroll-parallax';
-import { useInView } from 'react-intersection-observer';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { Icosahedron, ScrollControls, useScroll, Scroll } from '@react-three/drei';
+import * as THREE from 'three';
 import './ShowcasePage.css';
 
-const pillars = [
-  {
-    title: 'Innovation',
-    description: 'We harness cutting-edge technology to create intelligent, self-sustaining environments that anticipate future needs.',
-  },
-  {
-    title: 'Precision',
-    description: 'From macro-strategy to micro-details, every action is executed with flawless accuracy and purpose.',
-  },
-  {
-    title: 'Sustainability',
-    description: 'Our solutions are designed to be ecologically responsible, ensuring a better future for our planet and your business.',
-  },
-];
+const SplittingCore = () => {
+  const scroll = useScroll();
+  const shellRef1 = useRef();
+  const shellRef2 = useRef();
+  const coreRef = useRef();
 
-const PillarCard = ({ title, description }) => {
-  const { ref, inView } = useInView({ threshold: 0.8, triggerOnce: false });
+  useFrame(() => {
+    const offset = scroll.offset;
+    const splitOffset = Math.sin(offset * Math.PI);
+
+    if (shellRef1.current) {
+      shellRef1.current.position.x = THREE.MathUtils.lerp(0, -1.5, splitOffset);
+    }
+    if (shellRef2.current) {
+      shellRef2.current.position.x = THREE.MathUtils.lerp(0, 1.5, splitOffset);
+    }
+
+    if (coreRef.current) {
+      coreRef.current.rotation.y += 0.01 * (1 + splitOffset * 5);
+      const scale = 1 + splitOffset * 0.5;
+      coreRef.current.scale.set(scale, scale, scale);
+    }
+  });
+
   return (
-    <div ref={ref} className={`pillar-card ${inView ? 'active' : ''}`}>
-      <h3>{title}</h3>
-      <p>{description}</p>
-    </div>
+    <group>
+      <Icosahedron ref={coreRef} args={[0.5, 0]}>
+        <meshStandardMaterial color="#ff00ff" wireframe={false} emissive="#ff00ff" emissiveIntensity={1} />
+      </Icosahedron>
+      <Icosahedron ref={shellRef1} args={[1, 0]}>
+        <meshStandardMaterial color="#00aaff" wireframe clipIntersection={true} clipPlanes={[new THREE.Plane(new THREE.Vector3(1, 0, 0), 0)]} />
+      </Icosahedron>
+      <Icosahedron ref={shellRef2} args={[1, 0]}>
+        <meshStandardMaterial color="#00aaff" wireframe clipIntersection={true} clipPlanes={[new THREE.Plane(new THREE.Vector3(-1, 0, 0), 0)]} />
+      </Icosahedron>
+    </group>
+  );
+};
+
+const ThreeScene = () => {
+  const scroll = useScroll();
+  useFrame((state) => {
+    state.camera.position.z = 5 - scroll.offset * 10;
+    state.camera.lookAt(0, 0, 0);
+  });
+
+  return (
+    <>
+      <ambientLight intensity={0.2} />
+      <pointLight position={[10, 10, 10]} intensity={100} />
+      <SplittingCore />
+    </>
   );
 };
 
 const ShowcasePage = () => {
-  const { ref: heroRef, inView: heroInView } = useInView({
-    triggerOnce: true,
-    threshold: 0.3,
-  });
-
   return (
     <motion.div
+      className="showcase-3d-wrapper"
       initial="initial"
       animate="in"
       exit="out"
-      variants={{
-        initial: { opacity: 0 },
-        in: { opacity: 1 },
-        out: { opacity: 0 },
-      }}
+      variants={{ initial: { opacity: 0 }, in: { opacity: 1 }, out: { opacity: 0 } }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
     >
-      <div className="showcase-wrapper">
-        <div className="sticky-banner-container">
-          <ParallaxBanner
-            layers={[{
-              image: 'https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?q=80&w=2070&auto=format&fit=crop',
-              speed: -20,
-              scale: [1.2, 1],
-              opacity: [0.5, 1],
-            }]}
-            className="showcase-banner"
-          />
-          <div ref={heroRef} className="showcase-content">
-            <h1 className={heroInView ? 'visible' : ''}>Beyond Management</h1>
-            <h2 className={heroInView ? 'visible' : ''}>We Architect the Future</h2>
-            <p className={heroInView ? 'visible' : ''}>
-              This is not just about buildings. It's about creating ecosystems where potential thrives.
-            </p>
-          </div>
-        </div>
-        <div className="pillars-section">
-          <h2>Our Three Pillars</h2>
-          <div className="pillars-grid">
-            {pillars.map((pillar, index) => (
-              <PillarCard key={index} title={pillar.title} description={pillar.description} />
-            ))}
-          </div>
-        </div>
-      </div>
+      <Suspense fallback={null}>
+        <Canvas camera={{ position: [0, 0, 5], fov: 75 }}>
+          <ScrollControls pages={3} damping={0.25}>
+            <ThreeScene />
+            <Scroll html>
+              <div className="scroll-section">
+                <h1>At the heart of BETA, lies the Core.</h1>
+              </div>
+              <div className="scroll-section">
+                <h2>A self-assembling system of precision and intelligence.</h2>
+              </div>
+              <div className="scroll-section">
+                <h1>Engineering Emotion from the inside out.</h1>
+              </div>
+            </Scroll>
+          </ScrollControls>
+        </Canvas>
+      </Suspense>
     </motion.div>
   );
 };

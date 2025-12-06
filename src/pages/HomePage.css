@@ -1,5 +1,5 @@
 .home-content-wrapper {
-  background-color: var(--background-dark);
+  background-color: var(--bg-dark);
   padding: 5rem 0;
   overflow: hidden;
 }
@@ -14,7 +14,6 @@
   padding: 0 2rem;
 }
 
-/* Reverse layout for every other section */
 .service-section.reversed {
   grid-template-areas: "image text";
 }
@@ -71,11 +70,11 @@
 @media (max-width: 992px) {
   .service-section {
     grid-template-columns: 1fr;
-    grid-template-areas: none !important; /* Reset grid areas */
+    grid-template-areas: none !important;
     margin: 5rem auto;
   }
   .service-section.reversed .service-image-container {
-    order: -1; /* Move image to the top on mobile for reversed sections */
+    order: -1;
   }
   .service-text-content {
     text-align: center;

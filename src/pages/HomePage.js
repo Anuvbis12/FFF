@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion'; // Import motion
+import { motion } from 'framer-motion';
 import Hero from '../components/Hero/Hero';
 import { Parallax } from 'react-scroll-parallax';
 import { useInView } from 'react-intersection-observer';
@@ -52,11 +52,7 @@ const HomePage = () => {
       initial="initial"
       animate="in"
       exit="out"
-      variants={{
-        initial: { opacity: 0 },
-        in: { opacity: 1 },
-        out: { opacity: 0 },
-      }}
+      variants={{ initial: { opacity: 0 }, in: { opacity: 1 }, out: { opacity: 0 } }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
     >
       <Hero />

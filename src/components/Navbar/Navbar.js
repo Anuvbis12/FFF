@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import ThemeToggleButton from '../ThemeToggleButton/ThemeToggleButton'; // Import the button
+import { AuthContext } from '../../context/AuthContext'; // Import AuthContext
+import ThemeToggleButton from '../ThemeToggleButton/ThemeToggleButton';
 import './Navbar.css';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
+  const { isAuthenticated, logout } = useContext(AuthContext); // Use auth state and logout function
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -14,6 +16,11 @@ const Navbar = () => {
 
   const closeMenu = () => {
     setIsOpen(false);
+  };
+
+  const handleLogout = () => {
+    closeMenu();
+    logout();
   };
 
   useEffect(() => {
@@ -64,6 +71,11 @@ const Navbar = () => {
         <li><Link to="/about" onClick={closeMenu}>About</Link></li>
         <li><Link to="/projects" onClick={closeMenu}>Projects</Link></li>
         <li><Link to="/contact" onClick={closeMenu}>Contact</Link></li>
+        {isAuthenticated ? (
+          <li><button className="logout-button" onClick={handleLogout}>Logout</button></li>
+        ) : (
+          <li><Link to="/auth" onClick={closeMenu}>Login</Link></li>
+        )}
       </ul>
     </nav>
   );

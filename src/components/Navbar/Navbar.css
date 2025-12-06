@@ -34,16 +34,20 @@
   padding: 0;
 }
 
-.navbar-links a {
+.navbar-links a, .logout-button {
   color: var(--text-secondary);
   font-weight: 500;
   font-size: 1rem;
   text-transform: uppercase;
   letter-spacing: 1px;
   transition: color 0.3s ease;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
 }
 
-.navbar-links a:hover {
+.navbar-links a:hover, .logout-button:hover {
   color: var(--accent-hover);
 }
 
@@ -100,8 +104,9 @@
   .navbar.open .navbar-links li:nth-child(2) { transition-delay: 0.3s; }
   .navbar.open .navbar-links li:nth-child(3) { transition-delay: 0.4s; }
   .navbar.open .navbar-links li:nth-child(4) { transition-delay: 0.5s; }
+  .navbar.open .navbar-links li:nth-child(5) { transition-delay: 0.6s; }
 
-  .navbar-links a {
+  .navbar-links a, .logout-button {
     font-size: 2rem;
     color: var(--text-primary);
   }
