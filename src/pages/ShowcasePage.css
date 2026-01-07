@@ -35,11 +35,97 @@
   color: var(--text-secondary);
 }
 
+/* --- Widget Style Back Button --- */
+.back-button {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  padding: 6px; /* Compact padding for widget feel */
+  padding-right: 24px; /* Space for text */
+  background: rgba(20, 20, 25, 0.6); /* Dark glass */
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 100px; /* Pill shape */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  text-decoration: none;
+  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Circular Icon Container */
+.back-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+/* Text Styling */
+.back-text {
+  margin-left: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  transition: color 0.3s ease;
+}
+
+/* Hover Interactions */
+.back-button:hover {
+  background: rgba(20, 20, 25, 0.85);
+  border-color: rgba(0, 170, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 170, 255, 0.15);
+}
+
+.back-button:hover .back-arrow {
+  background: #00aaff; /* Cyan accent */
+  color: #000;
+  transform: rotate(-90deg); /* Rotate arrow up/left */
+}
+
+.back-button:hover .back-text {
+  color: #fff;
+}
+
+/* Active State */
+.back-button:active {
+  transform: scale(0.96);
+}
+
 @media (max-width: 768px) {
   .scroll-section h1 {
     font-size: 2rem;
   }
   .scroll-section h2 {
     font-size: 1.5rem;
+  }
+
+  .back-button {
+    top: 1.5rem;
+    left: 1.5rem;
+    padding: 5px;
+    padding-right: 18px;
+  }
+
+  .back-arrow {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+
+  .back-text {
+    font-size: 0.85rem;
+    margin-left: 10px;
   }
 }

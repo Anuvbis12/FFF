@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Icosahedron, ScrollControls, useScroll, Scroll } from '@react-three/drei';
 import * as THREE from 'three';
+import { useNavigate } from 'react-router-dom';
 import './ShowcasePage.css';
 
 const SplittingCore = () => {
@@ -61,15 +62,34 @@ const ThreeScene = () => {
 };
 
 const ShowcasePage = () => {
+  const navigate = useNavigate();
+
   return (
     <motion.div
       className="showcase-3d-wrapper"
       initial="initial"
       animate="in"
       exit="out"
-      variants={{ initial: { opacity: 0 }, in: { opacity: 1 }, out: { opacity: 0 } }}
-      transition={{ duration: 0.5, ease: "easeInOut" }}
+      variants={{
+        initial: { opacity: 0, scale: 1.1, filter: 'blur(10px)' },
+        in: { opacity: 1, scale: 1, filter: 'blur(0px)' },
+        out: { opacity: 0, scale: 0.95, filter: 'blur(20px)', transition: { duration: 0.6, ease: "easeInOut" } }
+      }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
     >
+      <motion.button
+        className="back-button"
+        onClick={() => navigate('/')}
+        whileHover={{ scale: 1.05, boxShadow: "0 15px 45px rgba(0, 170, 255, 0.2)" }}
+        whileTap={{ scale: 0.95 }}
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5, duration: 0.5 }}
+      >
+        <span className="back-arrow">←</span>
+        <span className="back-text">Back to Home</span>
+      </motion.button>
+
       <Suspense fallback={null}>
         <Canvas camera={{ position: [0, 0, 5], fov: 75 }}>
           <ScrollControls pages={3} damping={0.25}>
